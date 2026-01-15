@@ -1,6 +1,6 @@
-import 'package:day_bus_user/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AppTextStyles {
   static TextStyle get h1 => TextStyle(
@@ -26,4 +26,6 @@ class AppTextStyles {
     fontWeight: FontWeight.w600,
     color: Colors.white,
   );
+
+  static TextStyle get popins => GoogleFonts.poppins();
 }

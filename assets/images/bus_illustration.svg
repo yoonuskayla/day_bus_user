@@ -221,7 +221,7 @@
 </g>
 <defs>
 <linearGradient id="paint0_linear_503_12629" x1="196.5" y1="0" x2="196.5" y2="177" gradientUnits="userSpaceOnUse">
-<stop stop-color="#177EDE"/>
+<stop stop-color="#177EDE" stop-opacity="0"/>
 <stop offset="1" stop-color="#6AAFEF"/>
 </linearGradient>
 <clipPath id="clip0_503_12629">

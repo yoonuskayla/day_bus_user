@@ -1,3 +1,4 @@
+import 'package:day_bus_user/core/routes/app_router.dart';
 import 'package:day_bus_user/core/theme/app_colors.dart';
 import 'package:day_bus_user/core/theme/app_text_styles.dart';
 import 'package:day_bus_user/core/utils/ui_extensions.dart';
@@ -5,6 +6,7 @@ import 'package:day_bus_user/core/widgets/custom_button.dart';
 import 'package:day_bus_user/core/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 class BusSearchCard extends StatefulWidget {
   const BusSearchCard({super.key});
@@ -19,33 +21,31 @@ class _BusSearchCardState extends State<BusSearchCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16.w),
-      padding: EdgeInsets.all(16.w),
+      padding: EdgeInsets.all(24.w),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20.r),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        // boxShadow: [
+        //   BoxShadow(
+        //     color: Colors.black.withOpacity(0.05),
+        //     blurRadius: 10,
+        //     offset: const Offset(0, 4),
+        //   ),
+        // ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             "Bus Tickets",
             style: AppTextStyles.h1.copyWith(
               fontSize: 18.sp,
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w800,
             ),
           ),
-          16.hBox,
+          12.hBox,
           _buildLocationInputs(),
-          16.hBox,
+          10.hBox,
           _buildDateInput(),
           16.hBox,
           _buildHorizontalDateSelector(),
@@ -53,7 +53,7 @@ class _BusSearchCardState extends State<BusSearchCard> {
           CustomButton(
             text: "Search buses",
             onPressed: () {
-              // TODO: Implement search
+              context.go(AppRouter.busSearchResult);
             },
           ),
         ],
@@ -63,24 +63,40 @@ class _BusSearchCardState extends State<BusSearchCard> {
 
   Widget _buildLocationInputs() {
     return SizedBox(
-      height: 120.h,
       child: Stack(
+        fit: StackFit.passthrough,
+        clipBehavior: Clip.none,
         children: [
           Column(
             children: [
-              _buildInput("From", "Kozhikode"),
-              12.hBox,
-              _buildInput("To", "Kalikavu"),
+              CustomTextField(
+                label: 'From',
+                controller: TextEditingController(text: 'Kozhikode'),
+                suffixIcon: Icon(
+                  Icons.close,
+                  color: Colors.grey.shade400,
+                  size: 18.sp,
+                ),
+              ),
+              10.hBox,
+              CustomTextField(
+                label: 'To',
+                controller: TextEditingController(text: 'Kalikavu'),
+                suffixIcon: Icon(
+                  Icons.close,
+                  color: Colors.grey.shade400,
+                  size: 18.sp,
+                ),
+              ),
             ],
           ),
           Positioned(
-            right: 16.w,
+            right: 40.w,
             top: 28.h,
             bottom: 28.h,
             child: Center(
               child: Container(
-                width: 40.w,
-                height: 40.w,
+                padding: 10.pAll,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   shape: BoxShape.circle,
@@ -94,9 +110,9 @@ class _BusSearchCardState extends State<BusSearchCard> {
                   ],
                 ),
                 child: Icon(
-                  Icons.swap_vert,
+                  Icons.swap_vert_sharp,
                   color: AppColors.primary,
-                  size: 24.sp,
+                  size: 26.sp,
                 ),
               ),
             ),
@@ -106,28 +122,20 @@ class _BusSearchCardState extends State<BusSearchCard> {
     );
   }
 
-  Widget _buildInput(String label, String value) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.shade300),
-        borderRadius: BorderRadius.circular(12.r),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
+  Widget buildFloatingInput({required String label, required String value}) {
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Container(
+          height: 55.h,
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 18.h),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey.shade300),
+            borderRadius: BorderRadius.circular(12.r),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                label,
-                style: AppTextStyles.bodyMedium.copyWith(
-                  color: Colors.grey.shade500,
-                  fontSize: 11.sp,
-                ),
-              ),
-              2.hBox,
               Text(
                 value,
                 style: AppTextStyles.bodyLarge.copyWith(
@@ -136,97 +144,90 @@ class _BusSearchCardState extends State<BusSearchCard> {
                   fontSize: 15.sp,
                 ),
               ),
+              Icon(Icons.close, color: Colors.grey.shade400, size: 18.sp),
             ],
           ),
-          Icon(Icons.close, color: Colors.grey.shade400, size: 18.sp),
-        ],
-      ),
+        ),
+        Positioned(
+          left: 14.w,
+          top: -6.h,
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 6.w),
+            color: Colors.white, // important!
+            child: Text(
+              label,
+              style: AppTextStyles.bodyMedium.copyWith(
+                color: Colors.grey.shade500,
+                fontSize: 11.sp,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 
   Widget _buildDateInput() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.shade300),
-        borderRadius: BorderRadius.circular(12.r),
+    return CustomTextField(
+      label: 'Date',
+      controller: TextEditingController(text: '25 Dec 2025'),
+      prefixIcon: Icon(
+        Icons.calendar_today,
+        color: Colors.grey.shade400,
+        size: 18.sp,
       ),
-      child: Row(
+      suffixIcon: Row(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            Icons.calendar_today_outlined,
-            color: Colors.grey.shade400,
-            size: 20.sp,
-          ),
-          12.wBox,
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  "Date",
-                  style: AppTextStyles.bodyMedium.copyWith(
-                    color: Colors.grey.shade500,
-                    fontSize: 11.sp,
-                  ),
-                ),
-                2.hBox,
-                Text(
-                  "01 Jan 2026",
-                  style: AppTextStyles.bodyLarge.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black,
-                    fontSize: 15.sp,
-                  ),
-                ),
-              ],
+          InkWell(
+            onTap: () {
+              print("Today");
+            },
+            child: Text(
+              "Today",
+
+              style: AppTextStyles.bodyMedium.copyWith(
+                color: AppColors.primary,
+                fontWeight: FontWeight.w700,
+                fontSize: 13.sp,
+              ),
             ),
           ),
-          RichText(
-            text: TextSpan(
-              children: [
-                TextSpan(
-                  text: "Today",
-                  style: AppTextStyles.bodyMedium.copyWith(
-                    color: AppColors.primary,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 12.sp,
-                  ),
-                ),
-                TextSpan(
-                  text: " Tomorrow",
-                  style: AppTextStyles.bodyMedium.copyWith(
-                    color: Colors.grey.shade400,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 12.sp,
-                  ),
-                ),
-              ],
+          10.wBox,
+          InkWell(
+            onTap: () {
+              print("Tomorrow");
+            },
+            child: Text(
+              "Tomorrow",
+              style: AppTextStyles.bodyMedium.copyWith(
+                color: Colors.grey.shade500,
+                fontWeight: FontWeight.w700,
+                fontSize: 13.sp,
+              ),
             ),
           ),
+          16.wBox,
         ],
       ),
     );
   }
 
   Widget _buildHorizontalDateSelector() {
-    return SizedBox(
-      height: 60.h,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemCount: 7, // Showing a week
-        separatorBuilder: (context, index) => 12.wBox,
-        itemBuilder: (context, index) {
-          final isSelected = index == _selectedDateIndex;
-          return GestureDetector(
+    return Row(
+      children: List.generate(5, (index) {
+        final isSelected = index == _selectedDateIndex;
+
+        return Expanded(
+          child: GestureDetector(
             onTap: () {
               setState(() {
                 _selectedDateIndex = index;
               });
             },
             child: Container(
-              width: 50.w,
+              height: 60.h,
+              margin: EdgeInsets.only(right: index == 4 ? 0 : 12.w),
               decoration: BoxDecoration(
                 color: isSelected
                     ? const Color(0xFFD6E9FA)
@@ -240,7 +241,7 @@ class _BusSearchCardState extends State<BusSearchCard> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Thu", // Placeholder day
+                    "Thu",
                     style: AppTextStyles.bodyMedium.copyWith(
                       color: isSelected
                           ? AppColors.primary
@@ -250,7 +251,7 @@ class _BusSearchCardState extends State<BusSearchCard> {
                   ),
                   4.hBox,
                   Text(
-                    "0${index + 1}", // Placeholder date
+                    "0${index + 1}",
                     style: AppTextStyles.bodyLarge.copyWith(
                       color: isSelected ? AppColors.primary : Colors.black,
                       fontWeight: FontWeight.bold,
@@ -260,9 +261,9 @@ class _BusSearchCardState extends State<BusSearchCard> {
                 ],
               ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      }),
     );
   }
 }

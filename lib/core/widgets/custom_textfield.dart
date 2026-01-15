@@ -1,59 +1,110 @@
 import 'package:day_bus_user/core/theme/app_colors.dart';
-import 'package:day_bus_user/core/theme/app_text_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomTextField extends StatelessWidget {
-  final TextEditingController? controller;
-  final String hintText;
+  final String label;
+  final TextEditingController controller;
+
+  final bool readOnly;
+  final VoidCallback? onTap;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
-  final bool obscureText;
+  final bool obscure;
   final TextInputType? keyboardType;
+  final List<TextInputFormatter>? inputFormatter;
   final String? Function(String?)? validator;
+  final int? maxLines;
+  final TextCapitalization textCapitalization;
 
   const CustomTextField({
-    super.key,
-    this.controller,
-    required this.hintText,
+    required this.label,
+    required this.controller,
+    this.readOnly = false,
+    this.onTap,
     this.prefixIcon,
     this.suffixIcon,
-    this.obscureText = false,
+    this.obscure = false,
     this.keyboardType,
+    this.inputFormatter,
     this.validator,
+    this.maxLines,
+    this.textCapitalization = TextCapitalization.sentences,
+    super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      obscureText: obscureText,
-      keyboardType: keyboardType,
-      validator: validator,
-      style: AppTextStyles.bodyLarge.copyWith(color: Colors.black),
-      decoration: InputDecoration(
-        hintText: hintText,
-        hintStyle: AppTextStyles.bodyLarge.copyWith(color: Colors.grey),
-        prefixIcon: prefixIcon,
-        suffixIcon: suffixIcon,
-        contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12.r),
-          borderSide: BorderSide(color: Colors.grey.shade400, width: 1),
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        TextFormField(
+          controller: controller,
+          readOnly: readOnly,
+          onTap: onTap,
+          validator: validator,
+          keyboardType: keyboardType,
+          inputFormatters: inputFormatter,
+          textCapitalization: textCapitalization,
+          obscureText: obscure,
+          maxLines: maxLines ?? (obscure ? 1 : 1),
+
+          style: TextStyle(
+            fontSize: 15.sp,
+            color: Colors.black,
+            fontWeight: FontWeight.w600,
+          ),
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: Colors.transparent,
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: 14.w,
+              vertical: 18.h,
+            ),
+            prefixIcon: prefixIcon,
+            suffixIcon: suffixIcon,
+            hintText: "",
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12.r),
+              borderSide: BorderSide(color: Colors.grey.shade300),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12.r),
+              borderSide: BorderSide(color: Colors.grey.shade300),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12.r),
+              borderSide: BorderSide(color: AppColors.primary, width: 1.5),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12.r),
+              borderSide: BorderSide(color: Colors.red.shade400),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12.r),
+              borderSide: BorderSide(color: Colors.red.shade400, width: 1.5),
+            ),
+          ),
         ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12.r),
-          borderSide: BorderSide(color: Colors.grey.shade400, width: 1),
+
+        Positioned(
+          left: 14.w,
+          top: -8.h,
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 6.w),
+            color: Colors.white,
+            child: Text(
+              label,
+              style: TextStyle(
+                color: Colors.grey.shade500,
+                fontSize: 11.sp,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
         ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12.r),
-          borderSide: const BorderSide(color: AppColors.primary, width: 1),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12.r),
-          borderSide: const BorderSide(color: Colors.red, width: 1),
-        ),
-      ),
+      ],
     );
   }
 }

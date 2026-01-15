@@ -11,14 +11,14 @@ import 'package:pinput/pinput.dart';
 
 import 'package:day_bus_user/core/theme/app_decorations.dart';
 
-class OtpPage extends StatefulWidget {
-  const OtpPage({super.key});
+class ScreenOtp extends StatefulWidget {
+  const ScreenOtp({super.key});
 
   @override
-  State<OtpPage> createState() => _OtpPageState();
+  State<ScreenOtp> createState() => _ScreenOtpState();
 }
 
-class _OtpPageState extends State<OtpPage> {
+class _ScreenOtpState extends State<ScreenOtp> {
   final TextEditingController _otpController = TextEditingController();
 
   @override
@@ -107,7 +107,7 @@ class _OtpPageState extends State<OtpPage> {
                 CustomButton(
                   text: "Send OTP",
                   onPressed: () {
-                    context.push(AppRouter.home);
+                    context.push(AppRouter.bottomNavBar);
                   },
                 ),
                 24.hBox,

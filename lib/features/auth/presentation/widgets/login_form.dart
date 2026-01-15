@@ -1,7 +1,7 @@
 import 'package:day_bus_user/core/theme/app_text_styles.dart';
 import 'package:day_bus_user/core/utils/ui_extensions.dart';
 import 'package:day_bus_user/core/widgets/custom_button.dart';
-import 'package:day_bus_user/core/widgets/custom_textfield.dart';
+import 'package:day_bus_user/core/widgets/custom_login_textfield.dart';
 import 'package:day_bus_user/core/routes/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,7 +14,7 @@ class LoginForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        CustomTextField(
+        CustomLoginTextField(
           hintText: "Mobile Number",
           keyboardType: TextInputType.phone,
           prefixIcon: Padding(
