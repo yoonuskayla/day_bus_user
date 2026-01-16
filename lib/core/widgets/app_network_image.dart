@@ -25,7 +25,6 @@ class AppNetworkImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Handle empty/null URLs gracefully
     if (imageUrl.isEmpty) {
       return _simpleErrorImage(size: height * 0.4, bdRadius: bdRadius);
     }
@@ -37,35 +36,22 @@ class AppNetworkImage extends StatelessWidget {
         height: height.h,
         width: width.w,
         fit: fit,
-
-        // ✨ Smooth fade animation
         fadeInDuration: fadeDuration,
         fadeOutDuration: const Duration(milliseconds: 180),
 
-        // 🔹 Shimmer placeholder
         placeholder: (context, url) => Shimmer.fromColors(
           baseColor: Colors.grey.shade300,
           highlightColor: Colors.grey.shade100,
           child: Container(
             height: height.h,
             width: width.w,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(bdRadius.r),
-              color: Colors.white,
-            ),
+            color: Colors.white,
           ),
         ),
 
-        // 🔹 Error widget with override support
         errorWidget: (context, url, error) =>
             errorWidget ??
             _simpleErrorImage(size: height * 0.4, bdRadius: bdRadius),
-
-        // 🔹 Optional caching control (good for large images)
-        memCacheHeight: (height * 2).toInt(),
-        memCacheWidth: (width * 2).toInt(),
-        maxHeightDiskCache: (height * 3).toInt(),
-        maxWidthDiskCache: (width * 3).toInt(),
       ),
     );
   }

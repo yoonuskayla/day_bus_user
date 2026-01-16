@@ -2,11 +2,13 @@ import 'package:day_bus_user/core/resources/app_images.dart';
 import 'package:day_bus_user/core/theme/app_colors.dart';
 import 'package:day_bus_user/core/theme/app_text_styles.dart';
 import 'package:day_bus_user/core/utils/ui_extensions.dart';
+import 'package:day_bus_user/core/routes/app_router.dart';
 import 'package:day_bus_user/core/widgets/app_small_button.dart';
 import 'package:day_bus_user/core/widgets/dotted_divider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
 class BusResultCard extends StatelessWidget {
   const BusResultCard({super.key});
@@ -166,8 +168,10 @@ class BusResultCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     AppSmallButton(
-                      text: "Bus Details",
-                      onPressed: () {},
+                      text: "Select Seats",
+                      onPressed: () {
+                        context.push(AppRouter.selectSeats);
+                      },
                       type: ButtonStyleType.solid,
                       padding: EdgeInsets.symmetric(
                         horizontal: 24.w,

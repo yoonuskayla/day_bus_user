@@ -5,8 +5,10 @@ import 'package:day_bus_user/core/utils/ui_extensions.dart';
 import 'package:day_bus_user/core/widgets/app_small_button.dart';
 import 'package:day_bus_user/features/bookings/presentation/widgets/ticket_clipper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:day_bus_user/features/bookings/presentation/widgets/booking_options_bottom_sheet.dart';
 
 class BookingCard extends StatelessWidget {
   final bool isCompleted;
@@ -67,7 +69,24 @@ class BookingCard extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Icon(Icons.more_vert, color: Colors.grey.shade600),
+                      10.wBox,
+                      GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () {
+                          HapticFeedback.lightImpact();
+                          showModalBottomSheet(
+                            context: context,
+                            backgroundColor: Colors.transparent,
+                            isScrollControlled: true,
+                            builder: (context) =>
+                                const BookingOptionsBottomSheet(),
+                          );
+                        },
+                        child: Icon(
+                          Icons.more_vert,
+                          color: Colors.grey.shade600,
+                        ),
+                      ),
                     ],
                   ),
                 ],
@@ -186,7 +205,7 @@ class BookingCard extends StatelessWidget {
                   16.wBox,
                   if (!isCompleted && !isCancelled) ...[
                     AppSmallButton(
-                      text: "Find Boarding points",
+                      text: "Find Boarding point",
                       onPressed: () {},
                       type: ButtonStyleType.solid,
                       padding: EdgeInsets.symmetric(

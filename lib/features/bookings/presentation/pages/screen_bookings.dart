@@ -1,18 +1,20 @@
+import 'package:day_bus_user/core/routes/app_router.dart';
 import 'package:day_bus_user/core/theme/app_colors.dart';
 import 'package:day_bus_user/core/widgets/app_bar.dart';
 import 'package:day_bus_user/features/bookings/presentation/widgets/booking_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
-class BookingsPage extends StatefulWidget {
-  const BookingsPage({super.key});
+class ScreenBookings extends StatefulWidget {
+  const ScreenBookings({super.key});
 
   @override
-  State<BookingsPage> createState() => _BookingsPageState();
+  State<ScreenBookings> createState() => _ScreenBookingsState();
 }
 
-class _BookingsPageState extends State<BookingsPage> {
+class _ScreenBookingsState extends State<ScreenBookings> {
   int _selectedFilterIndex = 0;
   final List<String> _filters = [
     "On going",
@@ -56,7 +58,12 @@ class _BookingsPageState extends State<BookingsPage> {
               ),
               itemCount: 3, // Mock data count
               itemBuilder: (context, index) {
-                return const BookingCard();
+                return GestureDetector(
+                  onTap: () {
+                    context.push(AppRouter.bookingDetails);
+                  },
+                  child: const BookingCard(),
+                );
               },
             ),
           ),

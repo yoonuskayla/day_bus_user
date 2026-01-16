@@ -19,6 +19,7 @@ class CustomButton extends StatelessWidget {
   final Widget? suffixIcon;
   final WidgetStateProperty<Color?>? overlayColor;
   final BorderSide? borderSide;
+  final double? elevation;
 
   const CustomButton({
     required this.text,
@@ -36,6 +37,7 @@ class CustomButton extends StatelessWidget {
     this.overlayColor,
     this.isLoading = false,
     this.borderSide,
+    this.elevation,
     super.key,
   });
 
@@ -47,7 +49,7 @@ class CustomButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          elevation: 4.h,
+          elevation: elevation ?? 4.h,
           backgroundColor: backgroundColor,
           padding:
               padding ??

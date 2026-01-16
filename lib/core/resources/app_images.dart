@@ -1,6 +1,8 @@
 class AppImages {
   //  App  logo
   static const String appLogo = "assets/icons/app_logo.svg";
+  // kayla logo and  developed by kayla
+  static const String kaylaLogo = "assets/images/kayla_logo.svg";
 
   // bottom bar icons
   static const String homeFilled = "assets/icons/home_filled.svg";
@@ -31,4 +33,8 @@ class AppImages {
   static const String clock = "assets/icons/clock.svg";
   static const String arrow = "assets/icons/arrow.svg";
   static const String profileBg = "assets/images/profile_bg.svg";
+  static const String profieEditBg = "assets/images/profile_edit_bg.svg";
+  static const String man = "assets/icons/man.svg";
+  static const String woman = "assets/icons/woman.svg";
+  static const String steeringWheel = "assets/icons/steering_wheel.svg";
 }

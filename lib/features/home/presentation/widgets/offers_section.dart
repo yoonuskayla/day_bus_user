@@ -24,7 +24,7 @@ class OffersSection extends StatelessWidget {
         ),
         12.hBox,
         SizedBox(
-          height: 150.h,
+          height: 170.h,
           child: ListView.separated(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
             scrollDirection: Axis.horizontal,

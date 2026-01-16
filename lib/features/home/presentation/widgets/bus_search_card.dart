@@ -5,6 +5,7 @@ import 'package:day_bus_user/core/utils/ui_extensions.dart';
 import 'package:day_bus_user/core/widgets/custom_button.dart';
 import 'package:day_bus_user/core/widgets/custom_textfield.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
@@ -53,7 +54,8 @@ class _BusSearchCardState extends State<BusSearchCard> {
           CustomButton(
             text: "Search buses",
             onPressed: () {
-              context.go(AppRouter.busSearchResult);
+              HapticFeedback.lightImpact();
+              context.push(AppRouter.busSearchResult);
             },
           ),
         ],
@@ -71,6 +73,7 @@ class _BusSearchCardState extends State<BusSearchCard> {
             children: [
               CustomTextField(
                 label: 'From',
+                readOnly: true,
                 controller: TextEditingController(text: 'Kozhikode'),
                 suffixIcon: Icon(
                   Icons.close,
@@ -81,11 +84,18 @@ class _BusSearchCardState extends State<BusSearchCard> {
               10.hBox,
               CustomTextField(
                 label: 'To',
+                readOnly: true,
                 controller: TextEditingController(text: 'Kalikavu'),
-                suffixIcon: Icon(
-                  Icons.close,
-                  color: Colors.grey.shade400,
-                  size: 18.sp,
+                suffixIcon: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () {
+                    HapticFeedback.lightImpact();
+                  },
+                  child: Icon(
+                    Icons.close,
+                    color: Colors.grey.shade400,
+                    size: 18.sp,
+                  ),
                 ),
               ),
             ],
@@ -95,24 +105,31 @@ class _BusSearchCardState extends State<BusSearchCard> {
             top: 28.h,
             bottom: 28.h,
             child: Center(
-              child: Container(
-                padding: 10.pAll,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.grey.shade200),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
-                      blurRadius: 4,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: Icon(
-                  Icons.swap_vert_sharp,
-                  color: AppColors.primary,
-                  size: 26.sp,
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+
+                onTap: () {
+                  HapticFeedback.heavyImpact();
+                },
+                child: Container(
+                  padding: 10.pAll,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                    border: Border.all(color: Colors.grey.shade200),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.05),
+                        blurRadius: 4,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Icon(
+                    Icons.swap_vert_sharp,
+                    color: AppColors.primary,
+                    size: 26.sp,
+                  ),
                 ),
               ),
             ),
@@ -169,6 +186,7 @@ class _BusSearchCardState extends State<BusSearchCard> {
 
   Widget _buildDateInput() {
     return CustomTextField(
+      readOnly: true,
       label: 'Date',
       controller: TextEditingController(text: '25 Dec 2025'),
       prefixIcon: Icon(
@@ -221,6 +239,7 @@ class _BusSearchCardState extends State<BusSearchCard> {
         return Expanded(
           child: GestureDetector(
             onTap: () {
+              HapticFeedback.lightImpact();
               setState(() {
                 _selectedDateIndex = index;
               });

@@ -1,4 +1,5 @@
 import 'package:day_bus_user/core/theme/app_colors.dart';
+import 'package:day_bus_user/core/theme/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -50,7 +51,7 @@ class CustomTextField extends StatelessWidget {
           obscureText: obscure,
           maxLines: maxLines ?? (obscure ? 1 : 1),
 
-          style: TextStyle(
+          style: AppTextStyles.bodyMedium.copyWith(
             fontSize: 15.sp,
             color: Colors.black,
             fontWeight: FontWeight.w600,
@@ -75,7 +76,7 @@ class CustomTextField extends StatelessWidget {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12.r),
-              borderSide: BorderSide(color: AppColors.primary, width: 1.5),
+              borderSide: BorderSide(color: Colors.grey.shade500, width: 1),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12.r),

@@ -1,7 +1,6 @@
 import 'package:day_bus_user/core/resources/app_images.dart';
 import 'package:day_bus_user/core/theme/app_decorations.dart';
 import 'package:day_bus_user/core/utils/ui_extensions.dart';
-
 import 'package:day_bus_user/features/home/presentation/widgets/bus_search_card.dart';
 import 'package:day_bus_user/features/home/presentation/widgets/home_header.dart';
 import 'package:day_bus_user/features/home/presentation/widgets/offers_section.dart';
@@ -31,6 +30,7 @@ class _ScreenHomeState extends State<ScreenHome> {
             child: Column(
               children: [
                 16.hBox,
+
                 // Fixed Header
                 const HomeHeader(),
                 6.hBox,
@@ -59,7 +59,10 @@ class _ScreenHomeState extends State<ScreenHome> {
                               24.hBox,
                               const OffersSection(),
                               24.hBox,
-                              SvgPicture.asset(AppImages.mountainIllustration),
+                              SvgPicture.asset(
+                                AppImages.mountainIllustration,
+                                width: context.screenWidth,
+                              ),
                               54.hBox,
                             ],
                           ),

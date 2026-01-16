@@ -23,7 +23,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   // List of screens for each tab
   final List<Widget> _screens = [
     const ScreenHome(),
-    const BookingsPage(),
+    const ScreenBookings(),
     const ScreenNotifications(),
     const ScreenProfile(),
   ];

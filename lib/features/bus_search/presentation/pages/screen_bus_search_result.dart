@@ -3,13 +3,23 @@ import 'package:day_bus_user/core/theme/app_colors.dart';
 import 'package:day_bus_user/core/theme/app_text_styles.dart';
 import 'package:day_bus_user/core/utils/ui_extensions.dart';
 import 'package:day_bus_user/features/bus_search/presentation/widgets/bus_result_card.dart';
+import 'package:day_bus_user/features/bus_search/presentation/widgets/bus_filter_bottom_sheet.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
-class ScreenBusSearchResult extends StatelessWidget {
+class ScreenBusSearchResult extends StatefulWidget {
   const ScreenBusSearchResult({super.key});
+
+  @override
+  State<ScreenBusSearchResult> createState() => _ScreenBusSearchResultState();
+}
+
+class _ScreenBusSearchResultState extends State<ScreenBusSearchResult> {
+  final Set<String> _selectedFilters = {};
+  final List<String> _filters = ["Seater", "Sleeper", "AC"];
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +32,7 @@ class ScreenBusSearchResult extends StatelessWidget {
     );
   }
 
-  // -------------------------------------------------
   // AppBar
-  // -------------------------------------------------
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.white,
@@ -55,7 +63,7 @@ class ScreenBusSearchResult extends StatelessWidget {
                 style: AppTextStyles.h1.copyWith(fontSize: 16.sp),
               ),
               12.wBox,
-              Icon(Icons.edit_outlined, size: 16.sp, color: Colors.black),
+              Icon(Icons.edit_outlined, size: 20.sp, color: Colors.black),
             ],
           ),
           4.hBox,
@@ -68,28 +76,67 @@ class ScreenBusSearchResult extends StatelessWidget {
     );
   }
 
-  // -------------------------------------------------
   // Filters
-  // -------------------------------------------------
   Widget _buildFilters() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
+    return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       child: Row(
         children: [
-          _buildFilterChip("All", true),
+          // Fixed Filter Chip
+          GestureDetector(
+            onTap: () {
+              HapticFeedback.lightImpact();
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                backgroundColor: Colors.transparent,
+                builder: (context) => const BusFilterBottomSheet(),
+              );
+            },
+            child: _buildFilterChip(
+              "Filter",
+              _selectedFilters.isNotEmpty,
+              withIcon: true,
+            ),
+          ),
           12.wBox,
-          _buildFilterChip("Seater", false),
-          12.wBox,
-          _buildFilterChip("Sleeper", false),
-          12.wBox,
-          _buildFilterChip("AC", false),
+          // Scrollable Chips
+          Expanded(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: _filters.map((filter) {
+                  final isSelected = _selectedFilters.contains(filter);
+                  return Padding(
+                    padding: EdgeInsets.only(right: 12.w),
+                    child: GestureDetector(
+                      onTap: () {
+                        HapticFeedback.lightImpact();
+                        setState(() {
+                          if (isSelected) {
+                            _selectedFilters.remove(filter);
+                          } else {
+                            _selectedFilters.add(filter);
+                          }
+                        });
+                      },
+                      child: _buildFilterChip(filter, isSelected),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildFilterChip(String label, bool isSelected) {
+  Widget _buildFilterChip(
+    String label,
+    bool isSelected, {
+    bool withIcon = false,
+  }) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       decoration: BoxDecoration(
@@ -100,18 +147,29 @@ class ScreenBusSearchResult extends StatelessWidget {
         ),
       ),
       child: isSelected
-          ? Text(
-              label,
-              style: TextStyle(
-                color: AppColors.primary,
-                fontWeight: FontWeight.w500,
-                fontSize: 14.sp,
-              ),
+          ? Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (withIcon) ...[
+                  Icon(Icons.tune, size: 16.sp, color: AppColors.primary),
+                  8.wBox,
+                ],
+                Text(
+                  label,
+                  style: TextStyle(
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14.sp,
+                  ),
+                ),
+              ],
             )
           : Row(
               children: [
-                Icon(Icons.filter_list, size: 14.sp, color: Colors.black87),
-                8.wBox,
+                if (withIcon) ...[
+                  Icon(Icons.filter_list, size: 14.sp, color: Colors.black87),
+                  8.wBox,
+                ],
                 Text(
                   label,
                   style: TextStyle(
@@ -125,9 +183,7 @@ class ScreenBusSearchResult extends StatelessWidget {
     );
   }
 
-  // -------------------------------------------------
   // Summary Strip
-  // -------------------------------------------------
   Widget _buildSummaryStrip() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 16.w),
@@ -160,9 +216,7 @@ class ScreenBusSearchResult extends StatelessWidget {
     );
   }
 
-  // -------------------------------------------------
   // Bus List
-  // -------------------------------------------------
   Widget _buildBusList() {
     return Expanded(
       child: ListView.builder(

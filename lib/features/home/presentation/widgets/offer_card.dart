@@ -7,12 +7,25 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 class OfferCard extends StatelessWidget {
-  const OfferCard({super.key});
+  final String? title;
+  final String? description;
+  final String? validity;
+  final double? width;
+  final VoidCallback? onApply;
+
+  const OfferCard({
+    super.key,
+    this.title,
+    this.description,
+    this.validity,
+    this.width,
+    this.onApply,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 360.w,
+      width: width ?? 360.w,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16.r),
@@ -47,7 +60,7 @@ class OfferCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Flat 12% off on Saturday & Sunday bookings",
+                  title ?? "Flat 12% off on Saturday & Sunday bookings",
                   maxLines: 2,
                   style: AppTextStyles.bodyLarge.copyWith(
                     fontSize: 16.sp,
@@ -58,7 +71,7 @@ class OfferCard extends StatelessWidget {
 
                 8.hBox,
                 Text(
-                  "A little thank-you for choosing Day Bus.",
+                  description ?? "A little thank-you for choosing Day Bus.",
                   maxLines: 1,
                   style: AppTextStyles.bodyMedium.copyWith(
                     fontSize: 11.sp,
@@ -68,7 +81,7 @@ class OfferCard extends StatelessWidget {
 
                 4.hBox,
                 Text(
-                  "Valid till 25 Nov 2025",
+                  validity ?? "Valid till 25 Nov 2025",
                   maxLines: 1,
                   style: AppTextStyles.bodyMedium.copyWith(
                     fontSize: 10.sp,
@@ -82,7 +95,7 @@ class OfferCard extends StatelessWidget {
                     vertical: 10.h,
                   ),
                   text: 'Apply Offer',
-                  onPressed: () {},
+                  onPressed: onApply ?? () {},
                   type: ButtonStyleType.solid,
                 ),
               ],

@@ -32,7 +32,7 @@ class OtherServicesSection extends StatelessWidget {
             onPressed: () {},
             buttonPosition: Alignment.centerRight,
             contentPadding: EdgeInsets.only(
-              left: 100.w,
+              left: 120.w,
               right: 12.w,
               top: 12.w,
               bottom: 12.w,
@@ -41,7 +41,7 @@ class OtherServicesSection extends StatelessWidget {
               Positioned(bottom: 0, child: SvgPicture.asset(AppImages.shape1)),
               Positioned(
                 top: 20.h,
-                left: -50,
+                left: -60,
                 child: Image.asset(AppImages.touristBus, height: 70.h),
               ),
             ],
